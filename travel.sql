@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS booking (
     customer_id INT NOT NULL,
     destination_id INT NOT NULL,
     booking_date DATE NOT NULL,
-    cost_per_passenger INT NOT NULL,
+    cost_per_passenger NUMERIC(10, 2) NOT NULL,
     number_of_passengers INT NOT NULL,
-    total_booking_value INT NOT NULL,
+    total_booking_value NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
     FOREIGN KEY (destination_id) REFERENCES destination (destination_id)
 );
