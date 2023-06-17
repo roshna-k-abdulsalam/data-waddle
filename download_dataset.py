@@ -1,3 +1,5 @@
+# Script to download csv files from the given urls and save them to a directory in the current path. 
+
 import requests
 import os
 
