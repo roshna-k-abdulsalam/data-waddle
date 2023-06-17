@@ -1,12 +1,13 @@
+import gzip
 import os
 from datetime import date
 from io import BytesIO
-import gzip
-from dotenv import load_dotenv
 
-import pandas as pd
 import boto3
+import pandas as pd
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
+
 
 # Function to join the tables booking and destination on column destination_id
 def get_data_frame(table1, table2):

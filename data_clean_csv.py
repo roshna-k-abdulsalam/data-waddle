@@ -1,7 +1,9 @@
-import os, time
+import os
+import time
+
 import pandas as pd
-from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
 
 load_dotenv()
 db_url = os.getenv('DB_URL')
