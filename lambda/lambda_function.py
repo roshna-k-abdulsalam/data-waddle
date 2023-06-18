@@ -71,7 +71,7 @@ def lambda_handler(event, context):
         total_passengers_booked_per_destination=('number_of_passengers', 'sum')
     )
     
-    # Aggregated booking data left join with destination data.
+    # destination data left join aggregated booking data
     dest = destination_df.merge(booking_agg, left_on='destination', right_index=True, how='left')
     
     dest[['total_bookings_per_destination',
