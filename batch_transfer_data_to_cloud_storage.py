@@ -14,7 +14,7 @@ def get_data_frame(table1, table2):
     df1 = pd.read_sql_table(table1, conn)
     df2 = pd.read_sql_table(table2, conn)
     joined_df = df1.join(df2.set_index(['destination_id']), on='destination_id', how='inner', lsuffix="_x", rsuffix="_y")
-    joined_df = joined_df.drop(columns=['destination', 'country', 'popular_season'])
+    joined_df = joined_df.drop(columns=['destination_id', 'country', 'popular_season'])
     return joined_df.sort_values(by='booking_id', ascending=True)
 
 load_dotenv()
@@ -70,3 +70,4 @@ for i in range (len(tables)):
             
 # Close the database connection                
 conn.close()
+print("Batch transferred data successfully")
