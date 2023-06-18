@@ -7,11 +7,13 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-load_dotenv()
-db_url = os.getenv('DB_URL')
+def get_dataframe(file_path):
+    return pd.read_csv(file_path,index_col=0)
 
-def get_dataframe(url):
-    return pd.read_csv(url,index_col=0)
+load_dotenv()
+
+# Database connection url
+db_url = os.getenv('DB_URL')
 
 current_path =  os.getcwd()
 download_dir = os.path.join(os.getcwd(), "download_dataset")
