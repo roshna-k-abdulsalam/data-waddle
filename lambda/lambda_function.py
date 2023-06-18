@@ -29,9 +29,9 @@ def lambda_handler(event, context):
     response = s3.list_objects(Bucket=bucket_name, Prefix=search_directory)
     file_list = []
     
-    # Return error message if the directory doesn't exist 
+    # Raise an error message if the directory path is missing
     if not 'Contents' in response:
-        return("Searched directory path doesn't exist")
+        raise FileNotFoundError("Searched directory path doesn't exist")
         
     for obj in response['Contents']:
         # Exclude directories and files with invalid extensions
@@ -55,15 +55,15 @@ def lambda_handler(event, context):
         else:
             pass
     
-    #Return error if booking or destination files doesn't exist
+    #Raise an error if booking or destination files are missing
     if len(booking_df)==0 or len(destination_df)==0:
-        return("Booking or destination data doesn't exist")
-    
-    #Concatenate dataframes of same table if there are more than one
+        raise FileNotFoundError("Booking or destination file doesn't exist")
+        
+    #Concatenate multiple dataframes of the same table
     booking_df = pd.concat(booking_df, ignore_index=True) if len(booking_df) > 1 else booking_df[0]
     destination_df = pd.concat(destination_df, ignore_index=True) if len(destination_df)>1 else destination_df[0]
     
-    # First calculating metrics like total_bookings_per_destination, 
+    # Calculate metrics like total_bookings_per_destination, 
     # total_booking_value_per_destination, total_passengers_booked_per_destination 
     booking_agg = booking_df.groupby('destination').agg(
         total_bookings_per_destination=('booking_id', 'count'),
@@ -71,7 +71,7 @@ def lambda_handler(event, context):
         total_passengers_booked_per_destination=('number_of_passengers', 'sum')
     )
     
-    # destination data left join aggregated booking data
+    # Left join destination data with aggregated booking data
     dest = destination_df.merge(booking_agg, left_on='destination', right_index=True, how='left')
     
     dest[['total_bookings_per_destination',
@@ -79,11 +79,12 @@ def lambda_handler(event, context):
         'total_passengers_booked_per_destination']]  = dest[['total_bookings_per_destination', 
                                                              'total_booking_value_per_destination', 
                                                              'total_passengers_booked_per_destination']].fillna(0).astype(int)
-                                                             
+    # Get only required fields                                                         
     dest = dest[['destination', 
                  'total_bookings_per_destination', 
                  'total_booking_value_per_destination', 
                  'total_passengers_booked_per_destination']]
-                 
+
+    #Sort using the field destination             
     dest = dest.sort_values(by='destination', ascending=True)
     return(dest.set_index('destination', drop=True))
