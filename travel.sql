@@ -1,3 +1,6 @@
+--SQL script to create tables customer, destination and booking in the given database. 
+--Please ensure the database is created before running the script  
+
 --Create the user defined enum type season
 DROP TYPE IF EXISTS season;
 CREATE TYPE season AS ENUM ('Spring', 'Summer', 'Autumn', 'Winter');
