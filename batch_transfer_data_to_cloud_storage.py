@@ -1,3 +1,4 @@
+# This script batch-transfers data from the given postgreSQL database to a cloud storage solution(like AWS S3)
 import gzip
 import os
 from datetime import date
@@ -8,7 +9,6 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-
 # Function to join the tables booking and destination on column destination_id
 def get_data_frame(table1, table2):
     df1 = pd.read_sql_table(table1, conn)
@@ -16,6 +16,7 @@ def get_data_frame(table1, table2):
     joined_df = df1.join(df2.set_index(['destination_id']), on='destination_id', how='inner', lsuffix="_x", rsuffix="_y")
     joined_df = joined_df.drop(columns=['destination_id', 'country', 'popular_season'])
     return joined_df.sort_values(by='booking_id', ascending=True)
+
 
 load_dotenv()
 
