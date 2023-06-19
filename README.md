@@ -8,8 +8,8 @@
 
 ### travel.sql
 
-    This SQL script creates tables such as  customer, destination and booking into a PostgreSQL database. The table schema is designed based on the csv file structure mentioned in the given task. The tables customer and destination are fact tables
-    where as the table booking is a dimension table which has many to many relation with the tables customer and destination.
+    This SQL script creates tables such as  customer, destination and booking into a PostgreSQL database. The table schema is designed based on the csv file structure mentioned in the given task. The tables customer and destination are dimension tables
+    where as the table booking is a fact table which has many to many relation with the tables customer and destination.
     Please make sure that the database is created before running the script.
 
 ### transform_load_csv_data.py
